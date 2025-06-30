@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_escuela_contenido_enriquecidos",
+  "info": {
+    "displayName": "ContenidoEnriquecido"
+  },
+  "options": {},
+  "attributes": {
+    "contenido": {
+      "type": "richtext"
+    }
+  },
+  "config": {}
+}

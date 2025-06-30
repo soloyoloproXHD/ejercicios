@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_escuela_galeria_de_imagenes",
+  "info": {
+    "displayName": "GaleriaDeImagenes",
+    "icon": "dashboard"
+  },
+  "options": {},
+  "attributes": {
+    "archivos": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

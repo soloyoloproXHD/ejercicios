@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "profesors",
+  "info": {
+    "singularName": "profesor",
+    "pluralName": "profesors",
+    "displayName": "Profesor"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre_completo": {
+      "type": "component",
+      "component": "escuela.nombre-completo",
+      "repeatable": false
+    },
+    "email": {
+      "type": "string",
+      "unique": true,
+      "regex": "@escuela.com"
+    },
+    "detalles_adicionales": {
+      "type": "component",
+      "component": "escuela.detalles-adicionales-profesor",
+      "repeatable": true
+    },
+    "eventos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::evento.evento",
+      "mappedBy": "profesores"
+    },
+    "clases": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::clase.clase",
+      "mappedBy": "profesores"
+    }
+  }
+}

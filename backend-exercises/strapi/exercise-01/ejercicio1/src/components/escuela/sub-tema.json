@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_escuela_sub_temas",
+  "info": {
+    "displayName": "SubTema",
+    "icon": "arrowDown"
+  },
+  "options": {},
+  "attributes": {
+    "titulo": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

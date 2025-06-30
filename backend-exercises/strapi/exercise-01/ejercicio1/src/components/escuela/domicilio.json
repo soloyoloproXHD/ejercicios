@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_escuela_domicilios",
+  "info": {
+    "displayName": "Domicilio",
+    "icon": "train"
+  },
+  "options": {},
+  "attributes": {
+    "pais": {
+      "type": "string"
+    },
+    "entidad": {
+      "type": "string"
+    },
+    "calle": {
+      "type": "string"
+    },
+    "colonia": {
+      "type": "string"
+    },
+    "numero_exterior": {
+      "type": "integer"
+    }
+  },
+  "config": {}
+}

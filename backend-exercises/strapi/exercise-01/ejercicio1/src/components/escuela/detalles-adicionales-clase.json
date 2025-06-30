@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_escuela_detalles_adicionales_clases",
+  "info": {
+    "displayName": "DetallesAdicionalesClase",
+    "icon": "stack"
+  },
+  "options": {},
+  "attributes": {
+    "horario": {
+      "type": "string"
+    },
+    "aula": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

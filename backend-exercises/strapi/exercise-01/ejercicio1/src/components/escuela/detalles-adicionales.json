@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_escuela_detalles_adicionales",
+  "info": {
+    "displayName": "DetallesAdicionales",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "lugar": {
+      "type": "string",
+      "required": true
+    },
+    "fecha": {
+      "type": "date",
+      "required": true
+    },
+    "hora": {
+      "type": "time",
+      "required": true
+    },
+    "num_participantes": {
+      "type": "integer"
+    }
+  },
+  "config": {}
+}

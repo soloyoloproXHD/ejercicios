@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_escuela_detalles_adicionales_profesors",
+  "info": {
+    "displayName": "DetallesAdicionalesProfesor",
+    "icon": "doctor"
+  },
+  "options": {},
+  "attributes": {
+    "especialidad": {
+      "type": "string"
+    },
+    "experiencia": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}
