@@ -6,27 +6,27 @@ Que devuelve por consola cada uno de los siguientes `console.log`
 
 ```js
 console.log(a);
-var a = "hola";
+var a = "hola"; // undefined
 ```
 
 ---
 
 ```js
 console.log(b);
-let b = "hola";
+let b = "hola"; // ReferenceError
 ```
 
 ---
 
 ```js
 console.log(c);
-const c = "hola";
+const c = "hola"; // ReferenceError
 ```
 
 ---
 
 ```js
-sayHi();
+sayHi(); // Hola desde sayHi!
 
 function sayHi() {
   console.log("Hola desde sayHi!");
@@ -40,5 +40,5 @@ function sayBye() {
   console.log("Adios desde sayBye!");
 }
 
-sayBye();
+sayBye(); // Adios desde sayBye!
 ```
