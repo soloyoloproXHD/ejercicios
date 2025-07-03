@@ -468,7 +468,18 @@ export interface ApiProfesorProfesor extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
+    apellido: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     clases: Schema.Attribute.Relation<'manyToMany', 'api::clase.clase'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -476,19 +487,37 @@ export interface ApiProfesorProfesor extends Struct.CollectionTypeSchema {
     detalles_adicionales: Schema.Attribute.Component<
       'escuela.detalles-adicionales-profesor',
       true
-    >;
-    email: Schema.Attribute.String & Schema.Attribute.Unique;
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    email: Schema.Attribute.String &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     eventos: Schema.Attribute.Relation<'manyToMany', 'api::evento.evento'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::profesor.profesor'
-    > &
-      Schema.Attribute.Private;
-    nombre_completo: Schema.Attribute.Component<
-      'escuela.nombre-completo',
-      false
     >;
+    nClasesAsignadas: Schema.Attribute.Integer &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

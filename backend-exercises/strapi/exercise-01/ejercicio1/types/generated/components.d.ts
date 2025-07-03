@@ -107,19 +107,6 @@ export interface EscuelaMaterial extends Struct.ComponentSchema {
   };
 }
 
-export interface EscuelaNombreCompleto extends Struct.ComponentSchema {
-  collectionName: 'components_escuela_nombre_completos';
-  info: {
-    displayName: 'NombreCompleto';
-    icon: 'message';
-  };
-  attributes: {
-    apellido_materno: Schema.Attribute.String & Schema.Attribute.Required;
-    apellido_paterno: Schema.Attribute.String & Schema.Attribute.Required;
-    nombres: Schema.Attribute.String & Schema.Attribute.Required;
-  };
-}
-
 export interface EscuelaSubTema extends Struct.ComponentSchema {
   collectionName: 'components_escuela_sub_temas';
   info: {
@@ -207,7 +194,6 @@ declare module '@strapi/strapi' {
       'escuela.galeria-de-imagenes': EscuelaGaleriaDeImagenes;
       'escuela.lista-de-enlaces': EscuelaListaDeEnlaces;
       'escuela.material': EscuelaMaterial;
-      'escuela.nombre-completo': EscuelaNombreCompleto;
       'escuela.sub-tema': EscuelaSubTema;
       'escuela.tema': EscuelaTema;
       'shared.open-graph': SharedOpenGraph;

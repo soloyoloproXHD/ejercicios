@@ -9,20 +9,45 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
   "attributes": {
-    "nombre_completo": {
-      "type": "component",
-      "component": "escuela.nombre-completo",
-      "repeatable": false
+    "nombre": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "apellido": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     },
     "email": {
       "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
       "unique": true,
       "regex": "@escuela.com"
     },
     "detalles_adicionales": {
       "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
       "component": "escuela.detalles-adicionales-profesor",
       "repeatable": true
     },
@@ -37,6 +62,14 @@
       "relation": "manyToMany",
       "target": "api::clase.clase",
       "mappedBy": "profesores"
+    },
+    "nClasesAsignadas": {
+      "type": "integer",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }
