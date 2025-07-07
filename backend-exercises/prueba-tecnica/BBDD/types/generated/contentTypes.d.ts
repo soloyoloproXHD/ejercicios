@@ -373,6 +373,140 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiMenuDiarioMenuDiario extends Struct.CollectionTypeSchema {
+  collectionName: 'menus_diarios';
+  info: {
+    displayName: 'Men\u00FAs Diarios';
+    pluralName: 'menus-diarios';
+    singularName: 'menu-diario';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dia: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::menu-diario.menu-diario'
+    > &
+      Schema.Attribute.Private;
+    postre: Schema.Attribute.Relation<'oneToOne', 'api::plato.plato'>;
+    precio: Schema.Attribute.Decimal;
+    primero: Schema.Attribute.Relation<'oneToOne', 'api::plato.plato'>;
+    publishedAt: Schema.Attribute.DateTime;
+    segundo: Schema.Attribute.Relation<'oneToOne', 'api::plato.plato'>;
+    sum_precio: Schema.Attribute.Decimal;
+    tipo_menu: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::tipo-menu.tipo-menu'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPlatoPlato extends Struct.CollectionTypeSchema {
+  collectionName: 'platos';
+  info: {
+    displayName: 'Platos';
+    pluralName: 'platos';
+    singularName: 'plato';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Alergenos: Schema.Attribute.Component<'comida.alergenos', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    foto: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::plato.plato'> &
+      Schema.Attribute.Private;
+    menus_diarios: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::menu-diario.menu-diario'
+    >;
+    nombre: Schema.Attribute.String;
+    precio: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    tipo: Schema.Attribute.Enumeration<['Primero', 'Segundo', 'Postre']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    ventas: Schema.Attribute.Relation<'manyToMany', 'api::venta.venta'>;
+  };
+}
+
+export interface ApiTipoMenuTipoMenu extends Struct.CollectionTypeSchema {
+  collectionName: 'tipo_menus';
+  info: {
+    displayName: 'Tipo Men\u00FA';
+    pluralName: 'tipo-menus';
+    singularName: 'tipo-menu';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    impuesto: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tipo-menu.tipo-menu'
+    > &
+      Schema.Attribute.Private;
+    menus_diarios: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::menu-diario.menu-diario'
+    >;
+    nombre: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiVentaVenta extends Struct.CollectionTypeSchema {
+  collectionName: 'ventas';
+  info: {
+    displayName: 'Venta';
+    pluralName: 'ventas';
+    singularName: 'venta';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cantidad: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::venta.venta'> &
+      Schema.Attribute.Private;
+    platos: Schema.Attribute.Relation<'manyToMany', 'api::plato.plato'>;
+    publishedAt: Schema.Attribute.DateTime;
+    total_venta: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -466,6 +600,103 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginEmailDesignerV5EmailDesignerTemplate
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'email-designer-templates';
+  info: {
+    description: 'This collection stores email templates created with the email designer.';
+    displayName: 'Email Designer Templates';
+    pluralName: 'email-designer-templates';
+    singularName: 'email-designer-template';
+  };
+  options: {
+    draftAndPublish: false;
+    timestamps: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    bodyHtml: Schema.Attribute.Text;
+    bodyText: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    design: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::email-designer-v5.email-designer-template'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    subject: Schema.Attribute.String;
+    tags: Schema.Attribute.JSON;
+    templateReferenceId: Schema.Attribute.Integer & Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    versions: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::email-designer-v5.email-designer-template-version'
+    >;
+  };
+}
+
+export interface PluginEmailDesignerV5EmailDesignerTemplateVersion
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'email-designer-template-versions';
+  info: {
+    description: 'This collection keeps track of the changes made to the different templates.';
+    displayName: 'Email Designer Template Versions';
+    pluralName: 'email-designer-template-versions';
+    singularName: 'email-designer-template-version';
+  };
+  options: {
+    draftAndPublish: false;
+    timestamps: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    bodyHtml: Schema.Attribute.Text;
+    bodyText: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    design: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::email-designer-v5.email-designer-template-version'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    subject: Schema.Attribute.String;
+    tags: Schema.Attribute.JSON;
+    templateId: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::email-designer-v5.email-designer-template'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Struct.CollectionTypeSchema {
   collectionName: 'i18n_locale';
   info: {
@@ -509,6 +740,47 @@ export interface PluginI18NLocale extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface PluginRecordLockingOpenEntity
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'open-entity';
+  info: {
+    description: 'List of open entities for record locking plugin.';
+    displayName: 'Open Entity';
+    pluralName: 'open-entities';
+    singularName: 'open-entity';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    connectionId: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    entityDocumentId: Schema.Attribute.String;
+    entityId: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::record-locking.open-entity'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.String;
   };
 }
 
@@ -882,9 +1154,16 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::menu-diario.menu-diario': ApiMenuDiarioMenuDiario;
+      'api::plato.plato': ApiPlatoPlato;
+      'api::tipo-menu.tipo-menu': ApiTipoMenuTipoMenu;
+      'api::venta.venta': ApiVentaVenta;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::email-designer-v5.email-designer-template': PluginEmailDesignerV5EmailDesignerTemplate;
+      'plugin::email-designer-v5.email-designer-template-version': PluginEmailDesignerV5EmailDesignerTemplateVersion;
       'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::record-locking.open-entity': PluginRecordLockingOpenEntity;
       'plugin::review-workflows.workflow': PluginReviewWorkflowsWorkflow;
       'plugin::review-workflows.workflow-stage': PluginReviewWorkflowsWorkflowStage;
       'plugin::upload.file': PluginUploadFile;

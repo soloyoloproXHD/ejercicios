@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "platos",
+  "info": {
+    "singularName": "plato",
+    "pluralName": "platos",
+    "displayName": "Platos"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "foto": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "nombre": {
+      "type": "string"
+    },
+    "precio": {
+      "type": "decimal"
+    },
+    "Alergenos": {
+      "type": "component",
+      "component": "comida.alergenos",
+      "repeatable": true
+    },
+    "tipo": {
+      "type": "enumeration",
+      "enum": [
+        "Primero",
+        "Segundo",
+        "Postre"
+      ]
+    },
+    "menus_diarios": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::menu-diario.menu-diario",
+      "inversedBy": "primero"
+    },
+    "ventas": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::venta.venta",
+      "inversedBy": "platos"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_comida_alergenos",
+  "info": {
+    "displayName": "Alergenos",
+    "icon": "emotionUnhappy"
+  },
+  "options": {},
+  "attributes": {
+    "nombre": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "text"
+    },
+    "icono": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  },
+  "config": {}
+}

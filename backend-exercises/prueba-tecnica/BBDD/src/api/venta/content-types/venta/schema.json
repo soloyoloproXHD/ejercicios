@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ventas",
+  "info": {
+    "singularName": "venta",
+    "pluralName": "ventas",
+    "displayName": "Venta"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "platos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::plato.plato",
+      "mappedBy": "ventas"
+    },
+    "cantidad": {
+      "type": "integer"
+    },
+    "total_venta": {
+      "type": "decimal"
+    }
+  }
+}
