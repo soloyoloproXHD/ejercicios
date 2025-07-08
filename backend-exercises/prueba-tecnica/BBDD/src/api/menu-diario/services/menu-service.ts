@@ -3,15 +3,16 @@ import type { PrecioParams, PrecioResults } from '../../../type/menu-types';
 
 export default ({strapi}: {strapi: Core.Strapi}) => ({
     async calcularPrecio(params: PrecioParams): Promise<PrecioResults> {
+        const { ApplicationError } = require('@strapi/utils').errors;
         const { primeroID, segundoID, postreID, tipoMenuID } = params;
         let suma = 0;
 
         console.log("IDs:", primeroID, segundoID, postreID, tipoMenuID);
 
-        if (primeroID && segundoID && postreID && tipoMenuID    ) {
+        if (primeroID && segundoID && postreID && tipoMenuID) {
             console.log('Entré')
             const ids = [primeroID, segundoID, postreID].filter(Boolean) as number[];
-
+            console.log("IDs filtrados:", ids);
             const validIds = ids.filter((id): id is number => !!id);
 
             await Promise.all(validIds.map(async id => {
@@ -37,6 +38,6 @@ export default ({strapi}: {strapi: Core.Strapi}) => ({
                 total
             };
         }
-        return { suma: 0, total: 0 };
+        throw new ApplicationError("Faltan platos o el tipo de menú.");
     }
 })

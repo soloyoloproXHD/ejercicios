@@ -116,7 +116,7 @@ export default {
                 meta: { total: filtrados.length }, 
             };
         } catch (error) {
-            
+            return;
         }
     },
 
