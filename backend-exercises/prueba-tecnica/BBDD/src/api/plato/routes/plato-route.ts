@@ -2,7 +2,7 @@ export default {
     routes: [
         {
             method: 'GET',
-            path: '/platos/populares',
+            path: '/platos/ranking',
             handler: 'plato-controller.getPlatosPopulares',
             config: {
                 auth: false
