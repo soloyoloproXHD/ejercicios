@@ -1,4 +1,4 @@
-import { MenuDiario } from './menuDiario';
+import { MenuDiario } from "./menu-types";
 
 export interface TipoMenu {
   id?: number;

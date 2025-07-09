@@ -8,7 +8,7 @@ export interface MenuDiario {
   updatedAt?: Date | string;
   publishedAt?: Date | string;
   locale?: string | null;
-  dia?: string;
+  dia: string;
   primero?: Plato | null;
   segundo?: Plato | null;
   postre?: Plato | null;

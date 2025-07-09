@@ -10,11 +10,11 @@ export interface Plato {
   updatedAt?: Date | string;
   publishedAt?: Date | string;
   locale?: string | null;
-  foto?: Media[] | null;
-  nombre?: string;
-  precio?: number;
+  foto: Media[] | null;
+  nombre: string;
+  precio: number;
   Alergenos?: ComidaAlergenos[] | null;
-  tipo?: "Primero" | "Segundo" | "Postre";
+  tipo: "Primero" | "Segundo" | "Postre";
   menus_diarios?: MenuDiario | null;
   ventas?: Venta[] | null;
 };

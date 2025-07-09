@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-07-08T14:05:35.047Z"
+    "x-generation-date": "2025-07-09T11:12:37.061Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -3521,6 +3521,9 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "dia"
+            ],
             "type": "object",
             "properties": {
               "dia": {
@@ -3636,6 +3639,9 @@
       },
       "MenuDiario": {
         "type": "object",
+        "required": [
+          "dia"
+        ],
         "properties": {
           "id": {
             "type": "number"
@@ -4860,6 +4866,12 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "foto",
+              "nombre",
+              "precio",
+              "tipo"
+            ],
             "type": "object",
             "properties": {
               "foto": {
@@ -4980,6 +4992,12 @@
       },
       "Plato": {
         "type": "object",
+        "required": [
+          "foto",
+          "nombre",
+          "precio",
+          "tipo"
+        ],
         "properties": {
           "id": {
             "type": "number"
@@ -6184,6 +6202,10 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "nombre",
+              "impuesto"
+            ],
             "type": "object",
             "properties": {
               "nombre": {
@@ -6265,6 +6287,10 @@
       },
       "TipoMenu": {
         "type": "object",
+        "required": [
+          "nombre",
+          "impuesto"
+        ],
         "properties": {
           "id": {
             "type": "number"
@@ -7312,6 +7338,10 @@
         ],
         "properties": {
           "data": {
+            "required": [
+              "cantidad",
+              "total_venta"
+            ],
             "type": "object",
             "properties": {
               "platos": {
@@ -7393,6 +7423,10 @@
       },
       "Venta": {
         "type": "object",
+        "required": [
+          "cantidad",
+          "total_venta"
+        ],
         "properties": {
           "id": {
             "type": "number"

@@ -30,7 +30,7 @@
       "type": "decimal",
       "required": true,
       "default": 0,
-      "min": 1,
+      "min": 0,
       "max": 9999999
     },
     "Alergenos": {
