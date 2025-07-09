@@ -1,46 +1,47 @@
 import { Core } from "@strapi/strapi";
 import type { PlatoPopular } from '../../../type/plato-types';
+import { DOCUMENT_TYPES, FIELDS } from "../../../type/document-types"; 
 
 export default ({strapi}: {strapi: Core.Strapi}) => ({
-    async obtenerPlatosPopulares(): Promise<PlatoPopular[]> {
-        const contador: Record<number, number> = {};
+    async getDishesRanking(): Promise<PlatoPopular[]> {
+        const accountant: Record<number, number> = {};
         
-        const ventas = await strapi.documents('api::venta.venta').findMany({
+        const sales = await strapi.documents(DOCUMENT_TYPES.SALE_MODEL).findMany({
             populate: {
                 platos: true,
             },
         });
 
-        ventas.forEach((venta) => {
-            venta.platos.forEach((plato) => {
-                contador[plato.id] = (contador[plato.id] || 0) + venta.cantidad;
+        sales.forEach((sale) => {
+            sale.platos.forEach((dish) => {
+                accountant[dish.id] = (accountant[dish.id] || 0) + sale.cantidad;
             });
         });
 
-        const idsOrdenados = Object.entries(contador)
+        const sortedIDs = Object.entries(accountant)
             .sort((a, b) => b[1] - a[1])
             .map(([id]) => parseInt(id));
-        
-        if (idsOrdenados.length === 0) {
+
+        if (sortedIDs.length === 0) {
             return [];
         }
 
-        const platos = await strapi.documents('api::plato.plato').findMany({
-            filters: { id: { $in: idsOrdenados } },
-            fields: ['id', 'nombre', 'precio'],
+        const dishes = await strapi.documents('api::plato.plato').findMany({
+            filters: { id: { $in: sortedIDs } },
+            fields: [FIELDS.ID, FIELDS.NAME, FIELDS.PRICE],
         });
 
-        const platosOrdenados: PlatoPopular[] = idsOrdenados
+        const sortedDishes: PlatoPopular[] = sortedIDs
             .map((id) => {
-                const p = platos.find((x) => x.id === id);
+                const p = dishes.find((x) => x.id === id);
                 if (!p) return null;
                 return {
                     id: p.id,
                     nombre: p.nombre,
-                    cantidad_vendido: contador[p.id],
+                    cantidad_vendido: accountant[p.id],
                 }
             }).filter((x): x is PlatoPopular => x !== null);
 
-        return platosOrdenados;
+        return sortedDishes;
     }
 });

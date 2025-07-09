@@ -1,43 +1,41 @@
 import { Core } from '@strapi/strapi';
-import type { PrecioParams, PrecioResults } from '../../../type/menu-types';
+import type { PriceParams, PriceResults } from '../../../type/menu-types';
+import { ERROR_MESSAGES, DOCUMENT_TYPES, FIELDS } from '../../../type/document-types';
+import { Total } from '../../../middlewares/operations';
 
 export default ({strapi}: {strapi: Core.Strapi}) => ({
-    async calcularPrecio(params: PrecioParams): Promise<PrecioResults> {
+    async calculatePrice(params: PriceParams): Promise<PriceResults> {
         const { ApplicationError } = require('@strapi/utils').errors;
-        const { primeroID, segundoID, postreID, tipoMenuID } = params;
-        let suma = 0;
+        const { firstID, secondID, dessertID, menuTypeID } = params;
+        let addition = 0;
 
-        console.log("IDs:", primeroID, segundoID, postreID, tipoMenuID);
-
-        if (primeroID && segundoID && postreID && tipoMenuID) {
-            console.log('Entré')
-            const ids = [primeroID, segundoID, postreID].filter(Boolean) as number[];
-            console.log("IDs filtrados:", ids);
+        if (firstID && secondID && dessertID && menuTypeID) {
+            const ids = [firstID, secondID, dessertID].filter(Boolean) as number[];
             const validIds = ids.filter((id): id is number => !!id);
 
             await Promise.all(validIds.map(async id => {
-                const plato = await strapi.documents('api::plato.plato').findFirst({
+                const dish = await strapi.documents(DOCUMENT_TYPES.DISH_MODEL).findFirst({
                     filters: { id },
-                    fields: ['precio']
+                    fields: [FIELDS.PRICE]
                 });
-                if (plato && typeof plato.precio === 'number') {
-                    suma += plato.precio;
+                if (dish && typeof dish[FIELDS.PRICE] === 'number') {
+                    addition += dish[FIELDS.PRICE];
                 }
             }));
-
-            const tipoMenu = await strapi.documents('api::tipo-menu.tipo-menu').findFirst({
-                filters: { id: tipoMenuID },
-                fields: ['impuesto']
+            
+            const menuType = await strapi.documents(DOCUMENT_TYPES.MENU_TYPE_MODEL).findFirst({
+                filters: { id: menuTypeID },
+                fields: [FIELDS.TAX]
             });
 
-            const impuesto = suma * (tipoMenu.impuesto/100);
-            const total = suma + impuesto;
+
+            var total = Total(addition, menuType[FIELDS.TAX]);
 
             return {
-                suma,
+                addition,
                 total
             };
         }
-        throw new ApplicationError("Faltan platos o el tipo de menú.");
+        throw new ApplicationError(ERROR_MESSAGES.MISSING_DISH_OR_MENU);
     }
-})
+});

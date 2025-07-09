@@ -2,8 +2,8 @@ export default {
     routes: [
         {
             method: 'GET',
-            path: '/platos/ranking',
-            handler: 'plato-controller.getPlatosPopulares',
+            path: '/dishes/ranking',
+            handler: 'plato-controller.getDishesRanked',
             config: {
                 auth: false
             }

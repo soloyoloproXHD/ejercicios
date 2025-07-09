@@ -4,8 +4,8 @@ export default {
     routes: [
         {
             method: 'GET',
-            path: '/menus/postres',
-            handler: 'custom-menus.getPostres',
+            path: '/menus/desserts',
+            handler: 'custom-menus.getDesserts',
             config: {
                 auth: false
             }
@@ -13,7 +13,7 @@ export default {
         {
             method: 'GET',
             path: '/menus',
-            handler: 'custom-menus.getMenusPrecioAlergenos',
+            handler: 'custom-menus.getMenusPriceAllergens',
             config: {
                 auth: false
             }

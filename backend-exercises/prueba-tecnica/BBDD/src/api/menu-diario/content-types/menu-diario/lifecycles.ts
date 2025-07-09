@@ -1,35 +1,35 @@
+import { DOCUMENT_TYPES, ERROR_MESSAGES, FIELDS  } from "../../../../type/document-types";
+import { MenuDiarioLifecycle } from "../../../../type/menu-types";
+
 export default {
     async beforeCreate(event){
         const { data } = event.params;
 
-        const menuService = strapi.service('api::menu-diario.menu-service');
+        const service = strapi.service(DOCUMENT_TYPES.MENU_DIARIO_CUSTOM_SERVICE);
 
-        const primero = data.primero?.connect?.[0]?.id;
-        const segundo = data.segundo?.connect?.[0]?.id;
-        const postre = data.postre?.connect?.[0]?.id;
-        const tipoMenu = data.tipo_menu?.connect?.[0]?.id;
+        const first = data.primero?.connect?.[0]?.id;
+        const second = data.segundo?.connect?.[0]?.id;
+        const dessert = data.postre?.connect?.[0]?.id;
+        const menuType = data.tipo_menu?.connect?.[0]?.id;
 
-        if (!primero && !segundo && !postre && !tipoMenu) {
-            console.log("Skipping beforeCreate - datos vacíos, probablemente actualización");
+        if (!data.documentId){
+            await validateDishes(data);
+            
+            const { addition, total } = await service.calculatePrice({
+                firstID: first,
+                secondID: second,
+                dessertID: dessert,
+                menuTypeID: menuType
+            });
+
+            if (addition !== 0 && total !== 0) {
+                data.sum_precio = addition;
+                data.precio = total;
+            }
             return;
         }
-        
-        await validarPlatos(data);
-
-        console.log("Primero:", primero, "Segundo:", segundo, "Postre:", postre, "TipoMenu:", tipoMenu);
-
-        const { suma, total } = await menuService.calcularPrecio({
-            primeroID: primero,
-            segundoID: segundo,
-            postreID: postre,
-            tipoMenuID: tipoMenu
-        });
-
-        console.log("Suma:", suma, "Total:", total);
-
-        if (suma !== 0 && total !== 0) {
-            data.sum_precio = suma;
-            data.precio = total;
+        if (!first && !second && !dessert && !menuType) {
+            return;
         }
     },
 
@@ -37,50 +37,50 @@ export default {
         const { data, where } = event.params;
         const { ApplicationError } = require('@strapi/utils').errors;
         
-        const menuActual = await strapi.documents('api::menu-diario.menu-diario').findFirst({
+        const currentMenu = await strapi.documents(DOCUMENT_TYPES.MENU_DIARIO_MODEL).findFirst({
             filters: where,
-            populate: ['primero', 'segundo', 'postre', 'tipo_menu']
+            populate: [FIELDS.FIRST, FIELDS.SECOND, FIELDS.DESSERT, FIELDS.MENU_TYPE]
         });
-        
-        if (!menuActual) {
-            throw new ApplicationError("Menu no encontrado");
+
+        if (!currentMenu) {
+            throw new ApplicationError(ERROR_MESSAGES.MENU_NOT_FOUND);
         }
         
         const platosFinales = {
-            primero: platoFinal(menuActual.primero, data.primero),
-            segundo: platoFinal(menuActual.segundo, data.segundo),
-            postre: platoFinal(menuActual.postre, data.postre)
+            first: finalDish(currentMenu.primero, data.primero),
+            second: finalDish(currentMenu.segundo, data.segundo),
+            dessert: finalDish(currentMenu.postre, data.postre)
         };
         
         const ids = Object.values(platosFinales).filter((id): id is number => id !== null);
         const uniqueIds = new Set(ids);
         
         if (uniqueIds.size !== ids.length) {
-            throw new ApplicationError("No se pueden repetir los platos en diferentes categorias.");
+            throw new ApplicationError(ERROR_MESSAGES.DISH_REPEATED);
         }
         
-        const cambiosEnPlatos = data.primero || data.segundo || data.postre || data.tipo_menu;
+        const changesInDishes = data.primero || data.segundo || data.postre || data.tipo_menu;
 
-        if (cambiosEnPlatos) {
-            const servicio = strapi.service('api::menu-diario.menu-service');
-            const tipoMenuFinal = data.tipo_menu?.connect?.[0]?.id || menuActual.tipo_menu?.id;
-            
-            const { suma, total } = await servicio.calcularPrecio({
-                primeroID: platosFinales.primero,
-                segundoID: platosFinales.segundo,
-                postreID: platosFinales.postre,
-                tipoMenuID: tipoMenuFinal
+        if (changesInDishes) {
+            const service = strapi.service(DOCUMENT_TYPES.MENU_DIARIO_CUSTOM_SERVICE);
+            const finalMenuType = data.tipo_menu?.connect?.[0]?.id || currentMenu.tipo_menu?.id;
+
+            const { addition, total } = await service.calculatePrice({
+                firstID: platosFinales.first,
+                secondID: platosFinales.second,
+                dessertID: platosFinales.dessert,
+                menuTypeID: finalMenuType
             });
 
-            if (suma !== 0 && total !== 0) {
-                data.sum_precio = suma;
+            if (addition !== 0 && total !== 0) {
+                data.sum_precio = addition;
                 data.precio = total;
             }
         }
     }
 }
 
-async function validarPlatos(data: any) {
+async function validateDishes(data: MenuDiarioLifecycle) {
     const { ApplicationError } = require('@strapi/utils').errors;
     const ids: number[] = [];
     
@@ -97,14 +97,18 @@ async function validarPlatos(data: any) {
     const uniqueIds = new Set(ids);
 
     if (uniqueIds.size !== ids.length) {
-        throw new ApplicationError("No se pueden repetir los platos en diferentes categorias.");
+        throw new ApplicationError(ERROR_MESSAGES.DISH_REPEATED);
     }
 }
 
-function platoFinal(platoActual: any, cambioPlato: any): number | null {
-    if (cambioPlato?.connect && cambioPlato.connect.length > 0) {
-        return cambioPlato.connect[0]?.id || null;
+function finalDish(currentDish: any, changedDish: MenuDiarioLifecycle): number | null {
+    if (changedDish?.connect && changedDish.connect.length > 0) {
+        return changedDish.connect[0]?.id || null;
     }
 
-    return platoActual?.id || null;
+    if (changedDish?.disconnect && changedDish.disconnect.length > 0) {
+        return null;
+    }
+
+    return currentDish?.id || null;
 }

@@ -1,12 +1,14 @@
+import { DOCUMENT_TYPES } from "../../../type/document-types";
+
 export default {
-    async getPostres(ctx) {
-        const menus = await strapi.documents('api::menu-diario.menu-diario').findMany({
+    async getDesserts(ctx) {
+        const menus = await strapi.documents(DOCUMENT_TYPES.MENU_DIARIO_MODEL).findMany({
             populate: {
                 postre: true,
             }
         });
 
-        const postres = menus
+        const desserts = menus
             .filter(menu => menu.postre)
             .map(menu => ({
                 menuID: menu.id,
@@ -17,19 +19,19 @@ export default {
                 },
             }));
 
-        ctx.body = { data: postres };
+        ctx.body = { data: desserts };
     },
-    async getMenusPrecioAlergenos(ctx) {
+    async getMenusPriceAllergens(ctx) {
         try {
-            const minimo = parseFloat(ctx.query.min_precio) || 0;
-            const maximo = parseFloat(ctx.query.max_precio) || Number.MAX_SAFE_INTEGER;
-            const excluidos = (ctx.query.excluir_alergenos || '').split(',').filter(Boolean);
+            const minimum = parseFloat(ctx.query.min_price) || 0;
+            const maximum = parseFloat(ctx.query.max_price) || Number.MAX_SAFE_INTEGER;
+            const excluded = (ctx.query.exclude_allergens || '').split(',').filter(Boolean);
 
-            const menus = await strapi.documents('api::menu-diario.menu-diario').findMany({
+            const menus = await strapi.documents(DOCUMENT_TYPES.MENU_DIARIO_MODEL).findMany({
                 filters: {
                     precio: {
-                        $gte: minimo,
-                        $lte: maximo,
+                        $gte: minimum,
+                        $lte: maximum,
                     },
                 },
                 populate: {
@@ -52,39 +54,41 @@ export default {
                 }
             });
 
-            const menu = menus.map(menu => ({
-                id: menu.id,
-                dia: menu.dia,
-                precio: menu.precio,
-                primero: {
-                    id: menu.primero.id,
-                    nombre: menu.primero.nombre,
-                    precio: menu.primero.precio,
-                    alergenos: menu.primero.Alergenos,
-                },
-                segundo: {
-                    id: menu.segundo.id,
-                    nombre: menu.segundo.nombre,
-                    precio: menu.segundo.precio,
-                    alergenos: menu.segundo.Alergenos,
-                },
-                postre: {
-                    id: menu.postre.id,
-                    nombre: menu.postre.nombre,
-                    precio: menu.postre.precio,
-                    alergenos: menu.postre.Alergenos,
-                },
-                tipo_menu: {
-                    id: menu.tipo_menu.id,
-                    nombre: menu.tipo_menu.nombre,
-                },
-            }));
+            const menu = menus
+                .filter(menu => menu.primero && menu.segundo && menu.postre && menu.tipo_menu)
+                .map(menu => ({
+                    id: menu.id,
+                    dia: menu.dia,
+                    precio: menu.precio,
+                    primero: {
+                        id: menu.primero.id,
+                        nombre: menu.primero.nombre,
+                        precio: menu.primero.precio,
+                        alergenos: menu.primero.Alergenos,
+                    },
+                    segundo: {
+                        id: menu.segundo.id,
+                        nombre: menu.segundo.nombre,
+                        precio: menu.segundo.precio,
+                        alergenos: menu.segundo.Alergenos,
+                    },
+                    postre: {
+                        id: menu.postre.id,
+                        nombre: menu.postre.nombre,
+                        precio: menu.postre.precio,
+                        alergenos: menu.postre.Alergenos,
+                    },
+                    tipo_menu: {
+                        id: menu.tipo_menu.id,
+                        nombre: menu.tipo_menu.nombre,
+                    },
+                }));
 
-            const filtrados = menu.filter(m => {
-                const platos = [m.primero, m.segundo, m.postre].filter(Boolean);
+            const filtered = menu.filter(menu => {
+                const dishes = [menu.primero, menu.segundo, menu.postre].filter(Boolean);
 
-                for (const plato of platos) {
-                    if (plato.alergenos.some(al => excluidos.includes(al.nombre))) {
+                for (const dish of dishes) {
+                    if (dish.alergenos.some(allergen => excluded.includes(allergen.nombre))) {
                         return false;
                     }
                 }
@@ -92,7 +96,7 @@ export default {
             });
 
             ctx.body = {
-                data: filtrados.map(m => ({
+                data: filtered.map(m => ({
                     id: m.id,
                     dia: m.dia,
                     precio: m.precio,
@@ -113,10 +117,11 @@ export default {
                         alergenos: m.postre.alergenos.map(a => a.nombre),
                     }].filter(Boolean),
                 })),
-                meta: { total: filtrados.length }, 
+                meta: { total: filtered.length },
             };
         } catch (error) {
-            return;
+            console.error("Error fetching menus:", error);
+            ctx.throw(400, `Opps error ocurred getting menus..`);
         }
     },
 

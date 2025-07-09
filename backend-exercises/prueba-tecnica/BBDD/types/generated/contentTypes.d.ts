@@ -387,7 +387,12 @@ export interface ApiMenuDiarioMenuDiario extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    dia: Schema.Attribute.String;
+    dia: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+        minLength: 1;
+      }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -425,10 +430,8 @@ export interface ApiPlatoPlato extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    foto: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    foto: Schema.Attribute.Media<'images' | 'files', true> &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::plato.plato'> &
       Schema.Attribute.Private;
@@ -436,10 +439,26 @@ export interface ApiPlatoPlato extends Struct.CollectionTypeSchema {
       'oneToOne',
       'api::menu-diario.menu-diario'
     >;
-    nombre: Schema.Attribute.String;
-    precio: Schema.Attribute.Decimal;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+        minLength: 1;
+      }>;
+    precio: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 9999999;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
-    tipo: Schema.Attribute.Enumeration<['Primero', 'Segundo', 'Postre']>;
+    tipo: Schema.Attribute.Enumeration<['Primero', 'Segundo', 'Postre']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Primero'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -461,7 +480,16 @@ export interface ApiTipoMenuTipoMenu extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    impuesto: Schema.Attribute.Decimal;
+    impuesto: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1000;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<8>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -472,7 +500,12 @@ export interface ApiTipoMenuTipoMenu extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::menu-diario.menu-diario'
     >;
-    nombre: Schema.Attribute.String;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+        minLength: 1;
+      }>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -491,7 +524,16 @@ export interface ApiVentaVenta extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    cantidad: Schema.Attribute.Integer;
+    cantidad: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 100;
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -500,7 +542,16 @@ export interface ApiVentaVenta extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     platos: Schema.Attribute.Relation<'manyToMany', 'api::plato.plato'>;
     publishedAt: Schema.Attribute.DateTime;
-    total_venta: Schema.Attribute.Decimal;
+    total_venta: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 9999999;
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

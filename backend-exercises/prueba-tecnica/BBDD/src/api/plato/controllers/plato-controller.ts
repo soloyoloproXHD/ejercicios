@@ -1,13 +1,15 @@
+import { DOCUMENT_TYPES } from "../../../type/document-types";
+
 export default {
-    async getPlatosPopulares(ctx) {
-        const populares = await strapi.service('api::plato.plato-service').obtenerPlatosPopulares();
+    async getDishesRanked(ctx) {
+        const rankedDishes = await strapi.service(DOCUMENT_TYPES.DISH_SERVICE).getDishesRanking();
 
         ctx.body = {
             data: {
-                populares
+                rankedDishes
             },
             meta: {
-                total: populares.length
+                total: rankedDishes.length
             }
         }
     }

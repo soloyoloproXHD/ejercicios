@@ -8,6 +8,6 @@ export interface Venta {
   publishedAt?: Date | string;
   locale?: string | null;
   platos?: Plato[] | null;
-  cantidad?: number;
-  total_venta?: number;
+  cantidad: number;
+  total_venta: number;
 };

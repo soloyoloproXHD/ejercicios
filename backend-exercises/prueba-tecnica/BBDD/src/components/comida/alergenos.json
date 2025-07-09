@@ -7,19 +7,22 @@
   "options": {},
   "attributes": {
     "nombre": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "required": true
     },
     "descripcion": {
-      "type": "text"
+      "type": "text",
+      "minLength": 1,
+      "required": true
     },
     "icono": {
       "type": "media",
       "multiple": false,
       "allowedTypes": [
         "images",
-        "files",
-        "videos",
-        "audios"
+        "files"
       ]
     }
   },

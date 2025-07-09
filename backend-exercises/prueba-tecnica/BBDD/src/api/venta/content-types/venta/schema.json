@@ -18,10 +18,18 @@
       "mappedBy": "ventas"
     },
     "cantidad": {
-      "type": "integer"
+      "type": "integer",
+      "required": true,
+      "default": 1,
+      "min": 1,
+      "max": 100
     },
     "total_venta": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "default": 0,
+      "min": 0,
+      "max": 9999999
     }
   }
 }
