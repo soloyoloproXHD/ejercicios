@@ -1,34 +1,31 @@
+import { DOCUMENT_TYPES  } from "../../../../type/document-types";
+
 export default {
     async beforeCreate(event){
         const { data } = event.params;
 
-        const menuService = strapi.service('api::menu-diario.menu-service');
+        const menuService = strapi.service(DOCUMENT_TYPES.MENU_DIARIO_CUSTOM_SERVICE);
 
-        const primero = data.primero?.connect?.[0]?.id;
-        const segundo = data.segundo?.connect?.[0]?.id;
-        const postre = data.postre?.connect?.[0]?.id;
-        const tipoMenu = data.tipo_menu?.connect?.[0]?.id;
+        const first = data.primero?.connect?.[0]?.id;
+        const second = data.segundo?.connect?.[0]?.id;
+        const dessert = data.postre?.connect?.[0]?.id;
+        const menuType = data.tipo_menu?.connect?.[0]?.id;
 
-        if (!primero && !segundo && !postre && !tipoMenu) {
-            console.log("Skipping beforeCreate - datos vacíos, probablemente actualización");
+        if (!first && !second && !dessert && !menuType) {
             return;
         }
         
         await validarPlatos(data);
 
-        console.log("Primero:", primero, "Segundo:", segundo, "Postre:", postre, "TipoMenu:", tipoMenu);
-
-        const { suma, total } = await menuService.calcularPrecio({
-            primeroID: primero,
-            segundoID: segundo,
-            postreID: postre,
-            tipoMenuID: tipoMenu
+        const { addition, total } = await menuService.calcularPrecio({
+            primeroID: first,
+            segundoID: second,
+            postreID: dessert,
+            tipoMenuID: menuType
         });
 
-        console.log("Suma:", suma, "Total:", total);
-
-        if (suma !== 0 && total !== 0) {
-            data.sum_precio = suma;
+        if (addition !== 0 && total !== 0) {
+            data.sum_precio = addition;
             data.precio = total;
         }
     },
@@ -37,7 +34,7 @@ export default {
         const { data, where } = event.params;
         const { ApplicationError } = require('@strapi/utils').errors;
         
-        const menuActual = await strapi.documents('api::menu-diario.menu-diario').findFirst({
+        const menuActual = await strapi.documents(DOCUMENT_TYPES.MENU_DIARIO_MODEL).findFirst({
             filters: where,
             populate: ['primero', 'segundo', 'postre', 'tipo_menu']
         });
@@ -62,7 +59,7 @@ export default {
         const cambiosEnPlatos = data.primero || data.segundo || data.postre || data.tipo_menu;
 
         if (cambiosEnPlatos) {
-            const servicio = strapi.service('api::menu-diario.menu-service');
+            const servicio = strapi.service(DOCUMENT_TYPES.MENU_DIARIO_CUSTOM_SERVICE);
             const tipoMenuFinal = data.tipo_menu?.connect?.[0]?.id || menuActual.tipo_menu?.id;
             
             const { suma, total } = await servicio.calcularPrecio({

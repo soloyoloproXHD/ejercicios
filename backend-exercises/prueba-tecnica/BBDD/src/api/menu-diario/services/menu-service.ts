@@ -7,12 +7,8 @@ export default ({strapi}: {strapi: Core.Strapi}) => ({
         const { primeroID, segundoID, postreID, tipoMenuID } = params;
         let suma = 0;
 
-        console.log("IDs:", primeroID, segundoID, postreID, tipoMenuID);
-
         if (primeroID && segundoID && postreID && tipoMenuID) {
-            console.log('Entré')
             const ids = [primeroID, segundoID, postreID].filter(Boolean) as number[];
-            console.log("IDs filtrados:", ids);
             const validIds = ids.filter((id): id is number => !!id);
 
             await Promise.all(validIds.map(async id => {

@@ -7,9 +7,18 @@ export interface ComidaAlergenos extends Struct.ComponentSchema {
     icon: 'emotionUnhappy';
   };
   attributes: {
-    descripcion: Schema.Attribute.Text;
-    icono: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    nombre: Schema.Attribute.String;
+    descripcion: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 1;
+      }>;
+    icono: Schema.Attribute.Media<'images' | 'files'>;
+    nombre: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+        minLength: 1;
+      }>;
   };
 }
 

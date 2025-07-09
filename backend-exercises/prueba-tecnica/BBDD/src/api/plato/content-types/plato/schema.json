@@ -14,18 +14,24 @@
     "foto": {
       "type": "media",
       "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images",
-        "files",
-        "videos",
-        "audios"
+        "files"
       ]
     },
     "nombre": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "required": true
     },
     "precio": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "default": 0,
+      "min": 1,
+      "max": 9999999
     },
     "Alergenos": {
       "type": "component",
@@ -34,6 +40,8 @@
     },
     "tipo": {
       "type": "enumeration",
+      "required": true,
+      "default": "Primero",
       "enum": [
         "Primero",
         "Segundo",

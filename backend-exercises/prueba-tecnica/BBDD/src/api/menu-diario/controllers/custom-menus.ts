@@ -23,7 +23,7 @@ export default {
         try {
             const minimo = parseFloat(ctx.query.min_precio) || 0;
             const maximo = parseFloat(ctx.query.max_precio) || Number.MAX_SAFE_INTEGER;
-            const excluidos = (ctx.query.excluir_alergenos || '').split(',').filter(Boolean);
+            const excluded = (ctx.query.excluir_alergenos || '').split(',').filter(Boolean);
 
             const menus = await strapi.documents('api::menu-diario.menu-diario').findMany({
                 filters: {
@@ -80,11 +80,11 @@ export default {
                 },
             }));
 
-            const filtrados = menu.filter(m => {
-                const platos = [m.primero, m.segundo, m.postre].filter(Boolean);
+            const filtrados = menu.filter(menu => {
+                const platos = [menu.primero, menu.segundo, menu.postre].filter(Boolean);
 
                 for (const plato of platos) {
-                    if (plato.alergenos.some(al => excluidos.includes(al.nombre))) {
+                    if (plato.alergenos.some(al => excluded.includes(al.nombre))) {
                         return false;
                     }
                 }

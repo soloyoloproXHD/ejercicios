@@ -12,10 +12,17 @@
   "pluginOptions": {},
   "attributes": {
     "nombre": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "required": true
     },
     "impuesto": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "default": 8,
+      "min": 1,
+      "max": 1000
     },
     "menus_diarios": {
       "type": "relation",
