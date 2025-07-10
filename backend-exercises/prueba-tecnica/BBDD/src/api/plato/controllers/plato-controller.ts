@@ -1,4 +1,4 @@
-import { DOCUMENT_TYPES } from "../../../type/document-types";
+import { DOCUMENT_TYPES } from "../../../consts/document-types";
 
 export default {
     async getDishesRanked(ctx) {

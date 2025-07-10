@@ -1,7 +1,7 @@
 import { Core } from '@strapi/strapi';
 import type { PriceParams, PriceResults } from '../../../type/menu-types';
-import { ERROR_MESSAGES, DOCUMENT_TYPES, FIELDS } from '../../../type/document-types';
-import { Total } from '../../../middlewares/operations';
+import { ERROR_MESSAGES, DOCUMENT_TYPES, FIELDS } from '../../../consts/document-types';
+import { Total } from '../../../utils/operations';
 
 export default ({strapi}: {strapi: Core.Strapi}) => ({
     async calculatePrice(params: PriceParams): Promise<PriceResults> {

@@ -1,4 +1,4 @@
-import { DOCUMENT_TYPES, ERROR_MESSAGES, FIELDS  } from "../../../../type/document-types";
+import { DOCUMENT_TYPES, ERROR_MESSAGES, FIELDS  } from "../../../../consts/document-types";
 import { MenuDiarioLifecycle } from "../../../../type/menu-types";
 
 export default {

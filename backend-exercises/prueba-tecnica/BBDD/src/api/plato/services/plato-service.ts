@@ -1,6 +1,6 @@
 import { Core } from "@strapi/strapi";
 import type { PlatoPopular } from '../../../type/plato-types';
-import { DOCUMENT_TYPES, FIELDS } from "../../../type/document-types"; 
+import { DOCUMENT_TYPES, FIELDS } from "../../../consts/document-types"; 
 
 export default ({strapi}: {strapi: Core.Strapi}) => ({
     async getDishesRanking(): Promise<PlatoPopular[]> {

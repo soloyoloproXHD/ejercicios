@@ -1,4 +1,4 @@
-import { DOCUMENT_TYPES } from "../../../type/document-types";
+import { DOCUMENT_TYPES } from "../../../consts/document-types";
 
 export default {
     async getDesserts(ctx) {
@@ -120,8 +120,7 @@ export default {
                 meta: { total: filtered.length },
             };
         } catch (error) {
-            console.error("Error fetching menus:", error);
-            ctx.throw(400, `Opps error ocurred getting menus..`);
+            ctx.throw(500, `Opps error ocurred getting menus..`);
         }
     },
 
