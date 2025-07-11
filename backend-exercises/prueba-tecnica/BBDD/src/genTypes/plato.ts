@@ -17,4 +17,5 @@ export interface Plato {
   tipo: "Primero" | "Segundo" | "Postre";
   menus_diarios?: MenuDiario | null;
   ventas?: Venta[] | null;
+  tido_de_postre: "Azúcar." | "Sin azúcar.";
 };

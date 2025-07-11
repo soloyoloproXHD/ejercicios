@@ -59,6 +59,25 @@
       "relation": "manyToMany",
       "target": "api::venta.venta",
       "inversedBy": "platos"
+    },
+    "tido_de_postre": {
+      "type": "enumeration",
+      "conditions": {
+        "visible": {
+          "==": [
+            {
+              "var": "tipo"
+            },
+            "Postre"
+          ]
+        }
+      },
+      "required": true,
+      "default": "Azúcar.",
+      "enum": [
+        "Azúcar.",
+        "Sin azúcar."
+      ]
     }
   }
 }
