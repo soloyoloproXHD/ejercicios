@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-07-09T11:12:37.061Z"
+    "x-generation-date": "2025-07-10T22:55:31.940Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -4558,6 +4558,13 @@
                   }
                 }
               },
+              "tido_de_postre": {
+                "type": "string",
+                "enum": [
+                  "Azúcar.",
+                  "Sin azúcar."
+                ]
+              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -4870,7 +4877,8 @@
               "foto",
               "nombre",
               "precio",
-              "tipo"
+              "tipo",
+              "tido_de_postre"
             ],
             "type": "object",
             "properties": {
@@ -4934,6 +4942,13 @@
                   "example": "string or id"
                 }
               },
+              "tido_de_postre": {
+                "type": "string",
+                "enum": [
+                  "Azúcar.",
+                  "Sin azúcar."
+                ]
+              },
               "locale": {
                 "type": "string"
               },
@@ -4996,7 +5011,8 @@
           "foto",
           "nombre",
           "precio",
-          "tipo"
+          "tipo",
+          "tido_de_postre"
         ],
         "properties": {
           "id": {
@@ -5898,6 +5914,13 @@
                       }
                     }
                   },
+                  "tido_de_postre": {
+                    "type": "string",
+                    "enum": [
+                      "Azúcar.",
+                      "Sin azúcar."
+                    ]
+                  },
                   "createdAt": {
                     "type": "string",
                     "format": "date-time"
@@ -6130,6 +6153,13 @@
                 }
               }
             }
+          },
+          "tido_de_postre": {
+            "type": "string",
+            "enum": [
+              "Azúcar.",
+              "Sin azúcar."
+            ]
           },
           "createdAt": {
             "type": "string",
@@ -7046,6 +7076,13 @@
                           }
                         }
                       }
+                    },
+                    "tido_de_postre": {
+                      "type": "string",
+                      "enum": [
+                        "Azúcar.",
+                        "Sin azúcar."
+                      ]
                     },
                     "createdAt": {
                       "type": "string",
@@ -8341,6 +8378,13 @@
                       }
                     }
                   }
+                },
+                "tido_de_postre": {
+                  "type": "string",
+                  "enum": [
+                    "Azúcar.",
+                    "Sin azúcar."
+                  ]
                 },
                 "createdAt": {
                   "type": "string",
