@@ -456,6 +456,11 @@ export interface ApiPlatoPlato extends Struct.CollectionTypeSchema {
       > &
       Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
+    tido_de_postre: Schema.Attribute.Enumeration<
+      ['Az\u00FAcar.', 'Sin az\u00FAcar.']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Az\u00FAcar.'>;
     tipo: Schema.Attribute.Enumeration<['Primero', 'Segundo', 'Postre']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'Primero'>;
